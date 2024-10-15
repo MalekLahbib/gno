@@ -10,6 +10,10 @@ type Producer struct {
 	Name          string
 	PostalAddress string
 	Products      []*Product
+	RMSs          []*RawMaterialSupplier
+	Manufacturers []*Manufacturer
+	Distributors  []*Distributor
+	Retailers     []*Retailer
 }
 
 func NewProducer(id uint64, name, postalAddress string) *Producer {
@@ -22,9 +26,58 @@ func NewProducer(id uint64, name, postalAddress string) *Producer {
 	}
 }
 
-func (p *Producer) AddProduct(product *Product) {
+func (p *Producer) AddProduct(name, description string) {
 	if err := p.CallerIsOwner(); err != nil {
 		panic(err)
 	}
-	p.Products = append(p.Products, product)
+
+	p.Products = append(p.Products, NewProduct(uint64(len(p.Products)), name, description))
+}
+
+func (p *Producer) AddSupplier(name, postalAddress string) {
+	if err := p.CallerIsOwner(); err != nil {
+		panic(err)
+	}
+
+	p.RMSs = append(p.RMSs, &RawMaterialSupplier{
+		ID:            uint64(len(p.RMSs)),
+		Name:          name,
+		PostalAddress: postalAddress,
+	})
+}
+
+func (p *Producer) AddManufacturer(name, postalAddress string) {
+	if err := p.CallerIsOwner(); err != nil {
+		panic(err)
+	}
+
+	p.Manufacturers = append(p.Manufacturers, &Manufacturer{
+		ID:            uint64(len(p.Manufacturers)),
+		Name:          name,
+		PostalAddress: postalAddress,
+	})
+}
+
+func (p *Producer) AddDistributor(name, postalAddress string) {
+	if err := p.CallerIsOwner(); err != nil {
+		panic(err)
+	}
+
+	p.Distributors = append(p.Distributors, &Distributor{
+		ID:            uint64(len(p.Distributors)),
+		Name:          name,
+		PostalAddress: postalAddress,
+	})
+}
+
+func (p *Producer) AddRetailer(name, postalAddress string) {
+	if err := p.CallerIsOwner(); err != nil {
+		panic(err)
+	}
+
+	p.Retailers = append(p.Retailers, &Retailer{
+		ID:            uint64(len(p.Retailers)),
+		Name:          name,
+		PostalAddress: postalAddress,
+	})
 }
