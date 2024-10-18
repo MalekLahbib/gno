@@ -9,6 +9,7 @@ type Producer struct {
 	ID            uint64
 	Name          string
 	PostalAddress string
+
 	Products      []*Product
 	RMSs          []*RawMaterialSupplier
 	Manufacturers []*Manufacturer
